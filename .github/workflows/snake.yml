@@ -2,13 +2,14 @@ name: Generate Snake Animation
 
 on:
   schedule:
+    # Runs at 00:00 every day
     - cron: "0 0 * * *"
   workflow_dispatch:
   push:
     branches:
       - main
 
-# GitHub Actions botuna repoya yazma yetkisi verilir
+# Grants write permission to the GITHUB_TOKEN for pushing to the output branch
 permissions:
   contents: write
 
@@ -20,16 +21,16 @@ jobs:
     steps:
       # Generates the snake game from a github user contributions graph
       - name: Generate github-contribution-grid-snake.svg
-        uses: Platane/snk/svg-only@v3
+        uses: Platane/snk/svg-only@v3.5.0
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-
+            
       # Pushes the generated svg files to the output branch
       - name: Push to output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+        uses: crazy-max/ghaction-github-pages@v5.0.0
         with:
           target_branch: output
           build_dir: dist
